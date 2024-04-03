@@ -5,12 +5,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.user.microservice.exceptions.NoSuchElementNotfound;
+import com.user.microservice.exceptions.UserNotFoundException;
 import com.user.microservice.models.User;
 import com.user.microservice.payloads.ApiResponse;
 import com.user.microservice.service.UserService;
@@ -51,6 +53,21 @@ public class UserController {
 
 		}
 
+	}
+	
+	
+	@GetMapping("/get-user/{userId}")
+	public ResponseEntity<?> getUser(@PathVariable String userId){
+		
+		try {
+			User existingUser = userService.getUser(userId);
+			ApiResponse<Object> response = new ApiResponse<Object>(existingUser, HttpStatus.OK, true, "this is a user with this id : "+ userId);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		}catch(UserNotFoundException ex){
+			ApiResponse<Object> response = new ApiResponse<Object>(null, HttpStatus.NOT_FOUND, true, ex.getMessage());
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);	
+		}
+		
 	}
 
 }

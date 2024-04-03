@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.user.microservice.exceptions.NoSuchElementNotfound;
+import com.user.microservice.exceptions.UserNotFoundException;
 import com.user.microservice.models.User;
 import com.user.microservice.repositories.UserRepository;
 import com.user.microservice.service.UserService;
@@ -47,8 +48,13 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User getUser(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+		User existingUser = userRepo.findById(userId).get();
+		if(existingUser != null) {
+			return existingUser;
+		}else {
+			throw new UserNotFoundException("603", "User not found with this id "+ userId);
+		}
+		
 	}
 
 	@Override
