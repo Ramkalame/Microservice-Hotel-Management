@@ -9,16 +9,25 @@ import com.user.microservice.payloads.ApiResponse;
 
 @ControllerAdvice
 public class GlobalException {
-	
 
-	 @ExceptionHandler(NoSuchElementNotfound.class)
-	    public ResponseEntity<ApiResponse<Object>> handleNoSuchElementFound(NoSuchElementNotfound ex) {
-	        ApiResponse<Object> response = new ApiResponse<>();
-	        response.setData("element not found");
-	        response.setMessage(ex.getMessage());
-	        response.setSuccess(false);
-	        response.setStatus(HttpStatus.NOT_FOUND);
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-	    }
+	@ExceptionHandler(NoSuchElementNotfound.class)
+	public ResponseEntity<ApiResponse<Object>> handleNoSuchElementFound(NoSuchElementNotfound ex) {
+		ApiResponse<Object> response = new ApiResponse<>();
+		response.setData("element not found");
+		response.setMessage(ex.getMessage());
+		response.setSuccess(false);
+		response.setStatus(HttpStatus.NOT_FOUND);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+	}
+	
+	@ExceptionHandler(UserNotFoundException.class)
+	public ResponseEntity<ApiResponse<Object>> handleUserNotFoundException(UserNotFoundException ex) {
+		ApiResponse<Object> response = new ApiResponse<>();
+		response.setData("User not found");
+		response.setMessage(ex.getMessage());
+		response.setSuccess(false);
+		response.setStatus(HttpStatus.NOT_FOUND);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+	}
 
 }
